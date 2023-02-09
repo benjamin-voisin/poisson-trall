@@ -11,16 +11,29 @@ class World {
         this.width = width;
         this.w = w;
         this.grid = grid;
+        this.path = [];
     }
 
     show() {
         this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
+        this.path.forEach(path => path.show())
     }
 
     static makeEmptyWorld(height, width, w) {
         return new World(height, width, w, make2DCellArray(height, width, w));
     }
 
+}
+
+class Path {
+    constructor(cell) {
+        this.id = cell.number;
+        this.tilelist = [cell];
+    }
+
+    show() {
+
+    }
 }
 
 const cell = {
