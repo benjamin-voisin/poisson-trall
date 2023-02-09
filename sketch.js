@@ -16,12 +16,12 @@ function make2DArray(cols, rows) {
 function setup() {
     createCanvas(400, 400);
     background(51);
-    
+
     w = floor(width / n);
     world = make2DArray(n, n);
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
-            grid[i][j] = new Cell(i, j, w);
+            world[i][j] = new Cell(i, j, w);
         }
     }
 
@@ -30,24 +30,24 @@ function setup() {
         let i = rd % n;
         let j = floor(rd / n);
 
-        while (grid[i][j].number !== null) {
+        while (world[i][j].number !== null) {
             rd = floor(random(n * n));
             i = rd % n;
             j = floor(rd / n);
         }
-        grid[i][j].number = nb;
+        world[i][j].number = nb;
 
 
         rd = floor(random(n * n - 1));
         i = rd % n;
         j = floor(rd / n);
 
-        while (grid[i][j].number !== null) {
+        while (world[i][j].number !== null) {
             rd = floor(random(n * n - 1));
             i = rd % n;
             j = floor(rd / n);
         }
-        grid[i][j].number = nb;
+        world[i][j].number = nb;
     }
 }
 
@@ -57,7 +57,7 @@ function draw() {
 
     for (var i = 0; i < n; i++) {
         for (var j = 0; j < n; j++) {
-            grid[i][j].show();
+            world[i][j].show();
         }
     }
 
