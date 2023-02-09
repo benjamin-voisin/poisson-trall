@@ -1,15 +1,12 @@
-function make2DArray(cols, rows) {
-    let arr = new Array(cols);
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = new Array(rows);
-    }
-    return arr;
+function make2DArray(height, width) {
+    return Array.from(Array(height), () => new Array(width));
 }
 
 class World {
-    constructor(height, width, world) {
+    constructor(height, width, w, world) {
         this.height = height;
         this.width = width;
+        this.w = w;
         this.world = world;
     }
 
@@ -18,10 +15,10 @@ class World {
     }
 }
 
-function makeEmptyWorld(height, width) {
-    let world = new World(height, width, make2DArray(height, width));
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
+function makeEmptyWorld(height, width, w) {
+    let world = new World(height, width, w, make2DArray(height, width));
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
             world.world[i][j] = new Cell(i, j, w);
         }
     }

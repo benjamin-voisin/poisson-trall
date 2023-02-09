@@ -10,7 +10,7 @@ function setup() {
     background(51);
 
     w = floor(width / n);
-    world = makeEmptyWorld(n, n);
+    world = makeEmptyWorld(n, n, w);
 
     for (let nb = 0; nb < k; nb++) {
         let rd = floor(random(n * n));
