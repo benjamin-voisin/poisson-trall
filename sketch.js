@@ -1,7 +1,9 @@
 const n = 20;
 let cols, rows;
 
-const k = 5;
+const k = 10;
+
+let colors
 
 function make2DArray(cols, rows) {
     let arr = new Array(cols);
@@ -13,16 +15,17 @@ function make2DArray(cols, rows) {
 
 function setup() {
     createCanvas(400, 400);
-    width = floor(width / n);
     background(51);
-    grid = make2DArray(n, n);
+    
+    w = floor(width / n);
+    world = make2DArray(n, n);
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
-            grid[i][j] = new Cell(i, j, width);
+            grid[i][j] = new Cell(i, j, w);
         }
     }
 
-    for (let nb = 0; nb < k; nb ++) {
+    for (let nb = 0; nb < k; nb++) {
         let rd = floor(random(n * n));
         let i = rd % n;
         let j = floor(rd / n);
@@ -30,7 +33,7 @@ function setup() {
         while (grid[i][j].number !== null) {
             rd = floor(random(n * n));
             i = rd % n;
-            j = rd / n;
+            j = floor(rd / n);
         }
         grid[i][j].number = nb;
 
@@ -42,7 +45,7 @@ function setup() {
         while (grid[i][j].number !== null) {
             rd = floor(random(n * n - 1));
             i = rd % n;
-            j = rd / n;
+            j = floor(rd / n);
         }
         grid[i][j].number = nb;
     }
@@ -60,10 +63,24 @@ function draw() {
 
 }
 
+let is_dragging = false;
+let dragging_start = null;
 
 function mouseDragged(event) {
     let x = event.clientX, y = event.clientY;
     let i = floor(x / width), j = floor(y / width);
-    
-    
+
+    // C'est le premier mouvement de souris qu'on fait
+    if (!is_dragging) {
+        dragging_start = { i: i, j: j };
+        is_dragging = true;
+        return;
+    }
+
+
+}
+
+function mouseReleased() {
+    is_dragging = false;
+    dragging_start = null;
 }
