@@ -17,24 +17,24 @@ function setup() {
         let i = rd % n;
         let j = floor(rd / n);
 
-        while (world.world[i][j].number !== null) {
+        while (world.grid[i][j].number !== null) {
             rd = floor(random(n * n));
             i = rd % n;
             j = floor(rd / n);
         }
-        world.world[i][j].number = nb;
+        world.grid[i][j].number = nb;
 
 
         rd = floor(random(n * n - 1));
         i = rd % n;
         j = floor(rd / n);
 
-        while (world.world[i][j].number !== null) {
+        while (world.grid[i][j].number !== null) {
             rd = floor(random(n * n - 1));
             i = rd % n;
             j = floor(rd / n);
         }
-        world.world[i][j].number = nb;
+        world.grid[i][j].number = nb;
     }
 }
 

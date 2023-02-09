@@ -3,15 +3,15 @@ function make2DArray(height, width) {
 }
 
 class World {
-    constructor(height, width, w, world) {
+    constructor(height, width, w, grid) {
         this.height = height;
         this.width = width;
         this.w = w;
-        this.world = world;
+        this.grid = grid;
     }
 
     show() {
-        this.world.forEach(raw => raw.forEach(tile => tile.show())); 
+        this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
     }
 }
 
@@ -19,7 +19,7 @@ function makeEmptyWorld(height, width, w) {
     let world = new World(height, width, w, make2DArray(height, width));
     for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
-            world.world[i][j] = new Cell(i, j, w);
+            world.grid[i][j] = new Cell(i, j, w);
         }
     }
     return world;
