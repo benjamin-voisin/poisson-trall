@@ -6,7 +6,7 @@ const k = 10;
 let colors;
 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(600, 600);
     background(51);
 
     w = floor(width / n);

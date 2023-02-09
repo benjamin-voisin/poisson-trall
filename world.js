@@ -32,6 +32,9 @@ Object.freeze(cell)
 
 class Cell {
     constructor(i, j, w, number=null) {
+        this.i = i;
+        this.j = j;
+
         this.x = i * w;
         this.y = j * w;
         this.w = w;
