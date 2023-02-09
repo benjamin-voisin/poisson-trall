@@ -34,6 +34,9 @@ Object.freeze(cell)
 
 class Cell {
     constructor(i, j, w, number=null) {
+        this.i = i;
+        this.j = j;
+
         this.x = i * w;
         this.y = j * w;
         this.w = w;
@@ -49,7 +52,7 @@ class Cell {
         rect(this.x, this.y, this.w, this.w);
 
         if (this.number !== null) {
-            textAlign(CENTER);
+            textAlign(CENTER, CENTER);
             fill(0);
             strokeWeight(0.2);
             text(this.number, this.x + this.w * 0.5, this.y + this.w * 0.5);
