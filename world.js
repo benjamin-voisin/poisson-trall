@@ -1,3 +1,33 @@
+function make2DArray(cols, rows) {
+    let arr = new Array(cols);
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = new Array(rows);
+    }
+    return arr;
+}
+
+class World {
+    constructor(height, width, world) {
+        this.height = height;
+        this.width = width;
+        this.world = world;
+    }
+
+    show() {
+        this.world.forEach(raw => raw.forEach(tile => tile.show())); 
+    }
+}
+
+function makeEmptyWorld(height, width) {
+    let world = new World(height, width, make2DArray(height, width));
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            world.world[i][j] = new Cell(i, j, w);
+        }
+    }
+    return world;
+}
+
 const cell = {
     wall: 1,
     number: 2,
