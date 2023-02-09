@@ -1,3 +1,24 @@
+class Solver {
+	constructor(world) {
+		this.world = world;
+	}
+
+	solve() {
+		console.error("Pas de solveur implémenté !");
+	}
+}
+
+class Backtracking extends Solver {
+	constructor(world) {
+		super(world)
+	}
+	
+	solve() {
+
+	}
+}
+
+
 //La grille est un tableau de sommets.
 //Un chemin est une suite de sommets de la grille. (donc une suite de coordonnées)
 //Les chemins sont trivialement ordonnés par le nombre qu'il essaient de relier.
@@ -43,6 +64,4 @@ function extend_path(){
 
 function find_solution(grid){
 	let k = nb_numbers();
-	while (not is_solved(grid, paths)){
-	}
 }

@@ -1,9 +1,12 @@
-function make2DArray(height, width) {
-    return Array.from(Array(height), () => new Array(width));
+function make2DCellArray(height, width, w) {
+    let i = -1;
+    let j = -1;
+    return Array.from(Array(height), function () {j++;i=-1;return Array.from(Array(width), function () {i++;return new Cell(i, j, w)})});
 }
 
 class World {
     constructor(height, width, w, grid) {
+        console.log(grid);
         this.height = height;
         this.width = width;
         this.w = w;
@@ -13,16 +16,11 @@ class World {
     show() {
         this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
     }
-}
 
-function makeEmptyWorld(height, width, w) {
-    let world = new World(height, width, w, make2DArray(height, width));
-    for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-            world.grid[i][j] = new Cell(i, j, w);
-        }
+    static makeEmptyWorld(height, width, w) {
+        return new World(height, width, w, make2DCellArray(height, width, w));
     }
-    return world;
+
 }
 
 const cell = {
@@ -49,7 +47,7 @@ class Cell {
         rect(this.x, this.y, this.w, this.w);
 
         if (this.number !== null) {
-            textAlign(CENTER);
+            textAlign(CENTER, CENTER);
             fill(0);
             strokeWeight(0.2);
             text(this.number, this.x + this.w * 0.5, this.y + this.w * 0.5);
