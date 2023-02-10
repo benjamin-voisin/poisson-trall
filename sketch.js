@@ -43,7 +43,7 @@ function setup() {
 
 
     let start = document.getElementById("start");
-    start.addEventListener("click", function () {  
+    start.addEventListener("click", function () {
         s.start_solve();
     });
 
@@ -72,7 +72,7 @@ function draw() {
 }
 
 let is_dragging = false;
-let current_path = Array();
+let current_path = new Array();
 
 function mouseDragged(event) {
     const x = event.clientX - canvasx, y = event.clientY - canvasy;
@@ -84,16 +84,37 @@ function mouseDragged(event) {
             return
         }
 
-        current_path.push({ i: i, j: j });
+        current_path.push(world.grid[i][j]);
         is_dragging = true;
         return;
     }
 
     // On a déjà un chemin en cours
+    
+    // On vérifie qu'on est parti de la première case
+    const start_cell = current_path[0];
+    if (start_cell.i === i && start_cell.j === j) {
+        return;
+    }
+
 
     // On ne peut pas se déplacer sur une case déjà prise par un chemin fini
     if (world.grid[i][j].path) {
         return;
+    }
+
+    if (world.grid[i][j].celltype === cell.number) {
+
+        // On a fini un chemin
+        if (start_cell.number === world.grid[i][j].number) {
+            current_path.push(world.grid[i][j]);
+
+            world.paths[start_cell.number].cellend = world.grid[i][j];
+            world.paths[start_cell.number].tilelist = current_path.map(cell => [cell, []]);
+            current_path = new Array();
+            is_dragging = false;
+            return;
+        }
     }
 
     // On ne peut aller que sur des cases adjacentes à la dernière, et pas en diagonale
@@ -114,11 +135,11 @@ function mouseDragged(event) {
         return;
     }
 
-    current_path.push({ i: i, j: j });
+    current_path.push(world.grid[i][j]);
 }
 
 function mouseReleased() {
     is_dragging = false;
 
-    current_path = Array();
+    current_path = new Array();
 }

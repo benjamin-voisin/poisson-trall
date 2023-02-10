@@ -39,9 +39,9 @@ class BacktrackingSolver extends Solver {
 
 	backtrack(path) {
 		while (this.moves.length && (this.moves[this.moves.length - 1] != path.id)) {
-			this.backtrack_path(this.world.path[this.moves.pop()]);
+			this.backtrack_path(this.world.paths[this.moves.pop()]);
 		}
-		this.backtrack_path(this.world.path[this.moves.pop()]);
+		this.backtrack_path(this.world.paths[this.moves.pop()]);
 	}
 
 	explore_cell(path, cell) {
@@ -72,15 +72,15 @@ class BacktrackingSolver extends Solver {
 
 	compute_sorted_path() {
 		this.sorted_path = [[], [], [], [], []];
-		for (let i=0; i < this.world.path.length; i++) {
-			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+		for (let i=0; i < this.world.paths.length; i++) {
+			this.sorted_path[this.world.paths[i].tilelist[0][1].length - 1].push(this.world.paths[i])
 		}
 	}
 	start_solve() {
 		// Initialise les chemins en précalculant les chemins possibles
-		for (let i=0; i < this.world.path.length; i++) {
-			this.explore_cell(this.world.path[i], this.world.path[i].cellstart, (0, 0));
-			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+		for (let i=0; i < this.world.paths.length; i++) {
+			this.explore_cell(this.world.paths[i], this.world.paths[i].cellstart, (0, 0));
+			this.sorted_path[this.world.paths[i].tilelist[0][1].length - 1].push(this.world.paths[i])
 		}
 	}
 

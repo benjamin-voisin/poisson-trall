@@ -10,18 +10,18 @@ class World {
         this.width = width;
         this.w = w;
         this.grid = grid;
-        this.path = [];
+        this.paths = [];
     }
 
     add_target(cella, cellb) {
-        cella.number = this.path.length;
-        cellb.number = this.path.length;
-        this.path.push(new Path(this.path.length, cella, cellb));
+        cella.number = this.paths.length;
+        cellb.number = this.paths.length;
+        this.paths.push(new Path(this.paths.length, cella, cellb));
     }
 
     show() {
         this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
-        this.path.forEach(path => path.show());
+        this.paths.forEach(path => path.show());
         this.grid.forEach(raw => raw.forEach(tile => tile.show_number()));
     }
 
