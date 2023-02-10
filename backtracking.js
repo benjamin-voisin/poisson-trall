@@ -41,11 +41,12 @@ class BacktrackingSolver extends Solver {
 		console.log("BACKTRACK");
 		console.log(path.id);
 		console.log(this.moves);
-		console.log(this.sorted_path);
 		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] !== path.id)) {
 			this.backtrack_path(this.world.paths[this.moves.pop()]);
 		}
 		this.backtrack_path(this.world.paths[this.moves.pop()]);
+		this.compute_sorted_path();
+		console.log(this.sorted_path);
 	}
 
 	explore_cell(path, cell) {
@@ -78,6 +79,9 @@ class BacktrackingSolver extends Solver {
 		this.sorted_path = [[], [], [], [], [], []];
 		for (let i=0; i < this.world.paths.length; i++) {
 			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] !== this.world.paths[i].cellend) {
+				console.log(this.world.paths[i].id)
+				console.log(this.world.paths[i].tilelist[0][1].length)
+				console.log(this.world.paths[i])
 				this.sorted_path[this.world.paths[i].tilelist[0][1].length].push(this.world.paths[i]);
 			} else {
 				this.sorted_path[5].push(this.world.paths[i]);
