@@ -4,7 +4,7 @@ let canvasx, canvasy;
 let colors;
 let solver;
 
-const k = 4;
+const k = 3;
 
 
 const shuffle_array = array => {
