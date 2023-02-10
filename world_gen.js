@@ -26,7 +26,6 @@ function create_arbitrary_path(world) {
 	let i_depart = rd % n;
 	let j_depart = floor(rd / n);
 	while (world.grid[i_depart][j_depart].celltype !== cell.empty) {
-		console.log("aled");
 		let rd = floor(random(n * n));
 		i_depart = rd % n;
 		j_depart = floor(rd / n);
@@ -34,7 +33,6 @@ function create_arbitrary_path(world) {
 	let voisins = get_voisins(world, world.grid[i_depart][j_depart]);
 	//Si cette cellule n’a aucun voisin, paf on la transforme en mur
 	if (voisins.length === 0) {
-		console.log("mur…");
 		world.grid[i_depart][j_depart].wall = true;
 	}
 	//Sinon, on prend des voisins randoms jusqu'à arriver à un point bloquant
@@ -81,8 +79,6 @@ function generate_map(height, width, n, k) {
 	for (let i = 0; i < world.paths.length; i++){
 		cellstart = true_world.grid[world.paths[i].cellstart.i][world.paths[i].cellstart.j]
 		cellend = true_world.grid[world.paths[i].cellend.i][world.paths[i].cellend.j]
-		console.log(cellstart)
-		console.log(cellend)
 		true_world.add_target(cellstart, cellend);
 
 	}
