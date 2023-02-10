@@ -76,19 +76,19 @@ class BacktrackingSolver extends Solver {
 
 	compute_sorted_path() {
 		this.sorted_path = [[], [], [], [], [], []];
-		for (let i=0; i < this.world.path.length; i++) {
-			if (this.world.path[i].tilelist[this.world.path[i].tilelist.length - 1][0] != this.world.path[i].cellend) {
-				this.sorted_path[this.world.path[i].tilelist[0][1].length].push(this.world.path[i]);
+		for (let i=0; i < this.world.paths.length; i++) {
+			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] != this.world.paths[i].cellend) {
+				this.sorted_path[this.world.paths[i].tilelist[0][1].length].push(this.world.paths[i]);
 			} else {
-				this.sorted_path[5].push(this.world.path[i]);
+				this.sorted_path[5].push(this.world.paths[i]);
 			}
 		}
 	}
 
 	start_solve() {
 		// Initialise les chemins en précalculant les chemins possibles
-		for (let i=0; i < this.world.path.length; i++) {
-			this.explore_cell(this.world.path[i], this.world.path[i].cellstart);
+		for (let i=0; i < this.world.paths.length; i++) {
+			this.explore_cell(this.world.paths[i], this.world.paths[i].cellstart);
 		}
 		this.compute_sorted_path()
 	}
