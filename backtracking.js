@@ -43,9 +43,9 @@ class BacktrackingSolver extends Solver {
 		console.log(this.moves);
 		console.log(this.sorted_path);
 		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] != path.id)) {
-			this.backtrack_path(this.world.path[this.moves.pop()]);
+			this.backtrack_path(this.world.paths[this.moves.pop()]);
 		}
-		this.backtrack_path(this.world.path[this.moves.pop()]);
+		this.backtrack_path(this.world.paths[this.moves.pop()]);
 	}
 
 	explore_cell(path, cell) {
