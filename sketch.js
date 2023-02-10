@@ -36,8 +36,12 @@ function setup() {
 
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
-    s = new BacktrackingSolver(world);
-    s.solve();
+    let start = document.getElementById("start");
+
+    start.addEventListener("click", function () {
+        s = new BacktrackingSolver(world);
+        s.solve();
+    });
 }
 
 
