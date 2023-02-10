@@ -26,9 +26,10 @@ function create_arbitrary_path(world) {
 	let i_depart = rd % n;
 	let j_depart = floor(rd / n);
 	while (world.grid[i_depart][j_depart].celltype !== cell.empty) {
+		console.log("aled");
 		let rd = floor(random(n * n));
-		let i_depart = rd % n;
-		let j_depart = floor(rd / n);
+		i_depart = rd % n;
+		j_depart = floor(rd / n);
 	}
 	let voisins = get_voisins(world, world.grid[i_depart][j_depart]);
 	//Si cette cellule n’a aucun voisin, paf on la transforme en mur
