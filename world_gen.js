@@ -1,3 +1,5 @@
+const number_of_numbers = 5
+
 function get_voisins(world,cell){
 	let array = [];
 	if ((cell.j + 1 < world.width) && (world.grid[cell.i][cell.j + 1].is_free())) {array.push(world.grid[cell.i][cell.j + 1])};
@@ -37,16 +39,16 @@ function create_arbitrary_path(world){
 	//Sinon, on prend des voisins randoms jusqu'à arriver à un point bloquant
 	//qui sera la fin de notre chemin.
 	else{
-		let path_id = world.path.length;
+		let path_id = world.paths.length;
 		world.grid[i_depart][j_depart].path = true;
 		world.grid[i_depart][j_depart].number = path_id;
-		world.path.push(new Path(path_id, world.grid[i_depart][j_depart], world.grid[i_depart][j_depart]));
-		while(voisins.length > 2){
+		world.paths.push(new Path(path_id, world.grid[i_depart][j_depart], world.grid[i_depart][j_depart]));
+		while(voisins.length > 0){
 			let r = floor(random(voisins.length));
 			new_cell = voisins[r];
-		new_cell.path = true;
-			world.path[path_id].tilelist.push(new_cell);
-			world.path[path_id].cellend = new_cell;
+			new_cell.path = true;
+			world.paths[path_id].tilelist.push(new_cell);
+			world.paths[path_id].cellend = new_cell;
 			voisins = get_voisins(world, new_cell);
 		}
 		new_cell.number = path_id;
@@ -54,8 +56,8 @@ function create_arbitrary_path(world){
 }
 
 function clear_paths(world){
-	for (let k = 0; k < world.path.length; k++){
-		world.path[k].tilelist = [];
+	for (let k = 0; k < world.paths.length; k++){
+		world.paths[k].tilelist = [];
 	}
 }
 
@@ -65,13 +67,14 @@ function generate_map(height, width, n) {
 	world = World.makeEmptyWorld(n,n,w);
 	//Tant que le monde n’est pas rempli, on ajoute des chemins (ou des murs)
 	//dedans
-	create_arbitrary_path(world);
+	// create_arbitrary_path(world);
 	// while (is_not_full(world)){
 	// 	create_arbitrary_path(world);
 	// }
+	for (let k = 0; k < number_of_numbers; k++){
+		create_arbitrary_path(world);
+	}
 	//À la fin, on vide les chemins de tous les points intérieurs, pour en faire
 	//des targets
-	clear_paths(world);
-	console.log(world);
 	return world
 }
