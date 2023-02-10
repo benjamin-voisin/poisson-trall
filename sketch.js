@@ -1,11 +1,11 @@
-const n = 10;
+const n = 4;
 let cols, rows;
 let canvasx, canvasy;
 let colors;
 let solver;
 let playing = false;
 
-const k = 3;
+const k = 2;
 
 
 const shuffle_array = array => {
@@ -58,7 +58,7 @@ function setup() {
         i2 = rd % n;
         j2 = floor(rd / n);
 
-        while (world.grid[i2][j2].number !== null) {
+        while (world.grid[i2][j2].number !== null && (i1 !== i2 || j1 !== j2)) {
             rd = floor(random(n * n));
             i2 = rd % n;
             j2 = floor(rd / n);
