@@ -34,20 +34,19 @@ class BacktrackingSolver extends Solver {
 	}
 
 	backtrack_path(path) {
-		let tile = path.tilelist.pop();
-		this.backtrack_cell(tile[0]);
+		console.log(path);
+		if (path.tilelist.length > 1) {
+			let tile = path.tilelist.pop();
+			this.backtrack_cell(tile[0]);
+		}
 	}
 
 	backtrack(path) {
-		console.log("BACKTRACK");
-		console.log(path.id);
-		console.log(this.moves);
 		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] !== path.id)) {
 			this.backtrack_path(this.world.paths[this.moves.pop()]);
 		}
 		this.backtrack_path(this.world.paths[this.moves.pop()]);
 		this.compute_sorted_path();
-		console.log(this.sorted_path);
 	}
 
 	explore_cell(path, cell) {
@@ -79,10 +78,8 @@ class BacktrackingSolver extends Solver {
 	compute_sorted_path() {
 		this.sorted_path = [[], [], [], [], [], []];
 		for (let i = 0; i < this.world.paths.length; i++) {
+			console.log(this.world.paths[i]);
 			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] !== this.world.paths[i].cellend) {
-				console.log(this.world.paths[i].id)
-				console.log(this.world.paths[i].tilelist[0][1].length)
-				console.log(this.world.paths[i])
 				this.sorted_path[this.world.paths[i].tilelist[0][1].length].push(this.world.paths[i]);
 			} else {
 				this.sorted_path[5].push(this.world.paths[i]);
@@ -100,12 +97,14 @@ class BacktrackingSolver extends Solver {
 	}
 
 	iter_solve() {
-		let i = 0;
-		while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) { i++ }
-		if (i === this.sorted_path.length) {
-			console.log("On ne peut plus avancer ! sad");
-		} else {
-			this.explore_path(this.sorted_path[i].pop());
+		if (!(this.sorted_path[5].length === this.world.paths.length)) {
+			let i = 0;
+			while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) { i++ }
+			if (i === this.sorted_path.length) {
+				console.log("On ne peut plus avancer ! sad");
+			} else {
+				this.explore_path(this.sorted_path[i].pop());
+			}
 		}
 	}
 }
