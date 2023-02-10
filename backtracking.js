@@ -20,6 +20,7 @@ class Solver {
 class BacktrackingSolver extends Solver {
 	constructor(world) {
 		super(world);
+		this.started = false;
 		this.moves = [];
 		this.sorted_path = [[], [], [], [], [], []];
 	}
@@ -90,6 +91,7 @@ class BacktrackingSolver extends Solver {
 	}
 
 	start_solve() {
+		this.started = true;
 		// Initialise les chemins en précalculant les chemins possibles
 		for (let i = 0; i < this.world.paths.length; i++) {
 			this.explore_cell(this.world.paths[i], this.world.paths[i].cellstart);
