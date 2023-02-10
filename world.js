@@ -1,7 +1,7 @@
 function make2DCellArray(height, width, w) {
     let i = -1;
     let j = -1;
-    return Array.from(Array(height), function () {j++;i=-1;return Array.from(Array(width), function () {i++;return new Cell(i, j, w)})});
+    return Array.from(Array(height), function () {i++;j=-1;return Array.from(Array(width), function () {j++;return new Cell(i, j, w)})});
 }
 
 class World {

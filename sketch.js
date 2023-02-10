@@ -36,6 +36,8 @@ function setup() {
 
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
+    s = new BacktrackingSolver(world);
+    s.solve();
 }
 
 
@@ -56,10 +58,9 @@ function mouseDragged(event) {
     const x = event.clientX, y = event.clientY;
     const i = floor(x / w), j = floor(y / w);
 
-
     // C'est le premier mouvement de souris qu'on fait
     if (!is_dragging) {
-        if (world.grid[j][i].number == null) {
+        if (world.grid[i][j].number == null) {
             return
         }
 
