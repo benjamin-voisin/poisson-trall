@@ -32,9 +32,9 @@ class Backtracking extends Solver {
 		let n_target = 0;
 		j = 0;
 		i = 0;
-		while (n_target < this.world.target.length) {
+		while (n_target < this.world.path.length) {
 			this.world.path[i] 
-			i = ++i % this.world.target.length;
+			i = ++i % this.world.path.length;
 		}
 	}
 }

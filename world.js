@@ -10,15 +10,13 @@ class World {
         this.width = width;
         this.w = w;
         this.grid = grid;
-        this.target = [];
         this.path = [];
     }
 
     add_target(cella, cellb) {
-        cella.number = this.target.length;
-        cellb.number = this.target.length;
-        this.path.push(new Path(this.target.length, cella));
-        this.target.push((cella, cellb));
+        cella.number = this.path.length;
+        cellb.number = this.path.length;
+        this.path.push(new Path(this.path.length, cella, cellb));
     }
 
     show() {
@@ -33,9 +31,11 @@ class World {
 }
 
 class Path {
-    constructor(id, cellstart) {
-        this.id = cell.id;
-        this.tilelist = [cellstart];
+    constructor(id, cellstart, cellend) {
+        this.id = id;
+        this.cellstart = cellstart
+        this.cellend = cellend
+        this.tilelist = [];
     }
 
     show() {
