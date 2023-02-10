@@ -74,6 +74,7 @@ function generate_map(height, width, n) {
 	for (let k = 0; k < number_of_numbers; k++) {
 		create_arbitrary_path(world);
 	}
+	clear_paths(world);
 	//À la fin, on vide les chemins de tous les points intérieurs, pour en faire
 	//des targets
 	return world

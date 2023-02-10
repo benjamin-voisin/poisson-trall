@@ -64,6 +64,7 @@ function setup() {
 
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
+	world = generate_map(height, width, n);
 
     let s = new BacktrackingSolver(world);
 
