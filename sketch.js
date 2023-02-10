@@ -1,12 +1,38 @@
-const n = 20;
+const n = 10;
 let cols, rows;
 let canvasx, canvasy;
-
-const k = 10;
-
 let colors;
 
+const k = 7;
+
+
+const shuffle_array = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 function setup() {
+    colors = [
+        color(0, 0, 0),
+        color(87, 87, 87),
+        color(173, 35, 35),
+        color(42, 75, 215),
+        color(29, 105, 20),
+        color(129, 74, 25),
+        color(129, 38, 192),
+        color(160, 160, 160),
+        color(129, 197, 122),
+        color(157, 175, 255),
+        color(41, 208, 208),
+        color(255, 146, 51),
+        color(255, 238, 51),
+        color(233, 222, 187),
+        color(255, 205, 243)];
+    shuffle_array(colors);
     frameRate(30);
     cnv = createCanvas(600, 600);
     canvasx = cnv.position().x, canvasy = cnv.position().y;
@@ -58,16 +84,19 @@ function draw() {
     frameRate(30);
     background(255);
 
-    stroke(255, 204, 0);
-    strokeWeight(w * 0.5);
-    noFill();
-    strokeJoin(ROUND);
-    beginShape();
-    for (const pos of current_path) {
-        vertex(pos.i * w + w * 0.5, pos.j * w + w * 0.5);
+    if (current_path.length > 0) {
+        color = colors[current_path[0].number];
+        stroke(color);
+        strokeWeight(w * 0.5);
+        noFill();
+        strokeJoin(ROUND);
+        beginShape();
+        for (const pos of current_path) {
+            vertex(pos.i * w + w * 0.5, pos.j * w + w * 0.5);
+        }
+        endShape();
+        strokeWeight(0.2);
     }
-    endShape();
-    strokeWeight(0.2);
     world.show()
 }
 
@@ -90,7 +119,7 @@ function mouseDragged(event) {
     }
 
     // On a déjà un chemin en cours
-    
+
     // On vérifie qu'on est parti de la première case
     const start_cell = current_path[0];
     if (start_cell.i === i && start_cell.j === j) {
@@ -108,13 +137,14 @@ function mouseDragged(event) {
         // On a fini un chemin
         if (start_cell.number === world.grid[i][j].number) {
             current_path.push(world.grid[i][j]);
+            current_path.forEach(cell => cell.path = true);
 
             world.paths[start_cell.number].cellend = world.grid[i][j];
             world.paths[start_cell.number].tilelist = current_path.map(cell => [cell, []]);
             current_path = new Array();
             is_dragging = false;
-            return;
         }
+        return;
     }
 
     // On ne peut aller que sur des cases adjacentes à la dernière, et pas en diagonale
