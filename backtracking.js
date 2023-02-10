@@ -38,13 +38,19 @@ class BacktrackingSolver extends Solver {
 		if (path.tilelist.length > 1) {
 			let tile = path.tilelist.pop();
 			this.backtrack_cell(tile[0]);
-		}
+		} 
 	}
 
 	backtrack(path) {
 		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] !== path.id)) {
-			this.backtrack_path(this.world.paths[this.moves.pop()]);
+			path = this.world.paths[this.moves.pop()];
+			if (path.tilelist.length > 1) {
+				this.backtrack_path(path);
+			} else {
+				break
+			}
 		}
+		console.log(this.moves);
 		this.backtrack_path(this.world.paths[this.moves.pop()]);
 		this.compute_sorted_path();
 	}
