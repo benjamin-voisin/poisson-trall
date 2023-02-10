@@ -44,6 +44,7 @@ class Path {
             stroke(255, 204, 0);
             fill(255, 204, 0);
             circle(this.tilelist[0][0].i * w + w * 0.5, this.tilelist[0][0].j * w + w * 0.5, w * 0.8);
+            circle(this.tilelist[this.tilelist.length - 1][0].i * w + w * 0.5, this.tilelist[this.tilelist.length - 1][0].j * w + w * 0.5, w * 0.8);
             strokeWeight(w * 0.5);
             noFill();
             strokeJoin(ROUND);
@@ -73,13 +74,25 @@ class Cell {
         this.y = j * w;
         this.w = w;
 
-        this.celltype = cell.empty;
-        this.path = false;
+        this.wall = false;
+        this.path = null;
         this.number = number;
     }
 
-    is_free() {
-        return !this.path && (this.celltype === cell.empty)
+    get celltype() {
+        if (this.number !== null) {
+            return cell.number;
+        } else {
+            if (this.wall) {
+                return cell.wall;
+            } else {
+                return cell.empty;
+            }
+        }
+    }
+
+    is_free(path) {
+        return !this.path && ((this.celltype === cell.empty) || (this.celltype === cell.number && this.number == path.id))
     }
 
     show() {

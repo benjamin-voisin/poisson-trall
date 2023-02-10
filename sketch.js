@@ -38,11 +38,18 @@ function setup() {
 
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
-    let start = document.getElementById("start");
 
-    start.addEventListener("click", function () {
-        s = new BacktrackingSolver(world);
-        s.solve();
+    let s = new BacktrackingSolver(world);
+
+
+    let start = document.getElementById("start");
+    start.addEventListener("click", function () {  
+        s.start_solve();
+    });
+
+    let forwatd = document.getElementById("forward");
+    forwatd.addEventListener("click", function () {
+        s.iter_solve();
     });
 }
 

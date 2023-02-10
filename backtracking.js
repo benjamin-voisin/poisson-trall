@@ -3,12 +3,12 @@ class Solver {
 		this.world = world;
 	}
 
-	get_neighbour(cell) {
+	get_free_neighbour(path, cell) {
 		let array = [];
-		if ((cell.j + 1 < this.world.width) && (this.world.grid[cell.i][cell.j + 1].is_free())) {array.push(this.world.grid[cell.i][cell.j + 1])};
-		if ((0 <= cell.j - 1) && (this.world.grid[cell.i][cell.j - 1].is_free())) {array.push(this.world.grid[cell.i][cell.j - 1])};
-		if ((cell.i + 1 < this.world.height) && (this.world.grid[cell.i + 1][cell.j].is_free())) {array.push(this.world.grid[cell.i + 1][cell.j])};
-		if ((0 <= cell.i - 1) && (this.world.grid[cell.i - 1][cell.j].is_free())) {array.push(this.world.grid[cell.i - 1][cell.j])};
+		if ((cell.j + 1 < this.world.width) && (this.world.grid[cell.i][cell.j + 1].is_free(path))) {array.push(this.world.grid[cell.i][cell.j + 1])};
+		if ((0 <= cell.j - 1) && (this.world.grid[cell.i][cell.j - 1].is_free(path))) {array.push(this.world.grid[cell.i][cell.j - 1])};
+		if ((cell.i + 1 < this.world.height) && (this.world.grid[cell.i + 1][cell.j].is_free(path))) {array.push(this.world.grid[cell.i + 1][cell.j])};
+		if ((0 <= cell.i - 1) && (this.world.grid[cell.i - 1][cell.j].is_free(path))) {array.push(this.world.grid[cell.i - 1][cell.j])};
 		return array;
 	}
 
@@ -20,47 +20,73 @@ class Solver {
 class BacktrackingSolver extends Solver {
 	constructor(world) {
 		super(world);
-		this.timestamp = (0, 0);
-		this.timestamp_checkpoint = (0, 0);
+		this.moves = [];
+		this.sorted_path = [[], [], [], [], []];
 	}
 
 	heuristique(cella, target) {
-		return Math.abs(cella.i - target.i) + Math.abs(cella.j - target.j);
+		return (cella.i - target.i) ** 2 + (cella.j - target.j) ** 2;
+	}
+
+	backtrack_cell(cell) {
+		cell.path = null;
+	}
+
+	backtrack_path(path) {
+		let tile = path.tilelist.pop();
+		this.backtrack_cell(tile[0]);
+	}
+
+	backtrack(path) {
+		while (this.moves.length && (this.moves[this.moves.length - 1] != path.id)) {
+			this.backtrack_path(this.world.path[this.moves.pop()]);
+		}
+		this.backtrack_path(this.world.path[this.moves.pop()]);
 	}
 
 	explore_cell(path, cell) {
-		let neighbour = this.get_neighbour(cell);
-		neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
-		path.tilelist.push([cell, neighbour, this.timestamp]);
+		this.moves.push(path.id);
+		cell.path = path.id;
+		if (cell != path.cellend) { 
+			let neighbour = this.get_free_neighbour(path, cell);
+			neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
+			path.tilelist.push([cell, neighbour]);
+			this.sorted_path[neighbour.length].push(path);
+		} else {
+			path.tilelist.push([cell, []]);
+			this.sorted_path[4].push(path);
+		}
 	}
 	
 	explore_path(path) {
-		console.log(path);
 		if (path.tilelist[path.tilelist.length - 1][1].length > 0) {
-			this.explore_cell(path, path.tilelist[path.tilelist.length - 1][1].pop(), this.timestamp);
+			// Vérifier que la node n'a pas étée occupée depuis
+			let cell = path.tilelist[path.tilelist.length - 1][1].pop();
+			if (cell.is_free(path)) {
+				this.explore_cell(path, cell);
+			}
 		} else {
-			path.tilelist.pop();
-			this.timestamp = (this.timestamp[0] + 1, 0);
-			this.explore_path(path, this.timestamp);
+			this.backtrack(path)
 		}
 	}
 
-	solve() {
-		let sorted_path = [[], [], [], [], []];
+	compute_sorted_path() {
+		this.sorted_path = [[], [], [], [], []];
+		for (let i=0; i < this.world.path.length; i++) {
+			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+		}
+	}
+	start_solve() {
 		// Initialise les chemins en précalculant les chemins possibles
 		for (let i=0; i < this.world.path.length; i++) {
 			this.explore_cell(this.world.path[i], this.world.path[i].cellstart, (0, 0));
-			sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
 		}
-		//console.log(sorted_path);
-		let n_target = 0;
-		//while (n_target < this.world.path.length) {
-		for (let i = 0; i < 100; i++) {
-			let i = 0;
-			while ((i < sorted_path.length) && (sorted_path[i].length == 0)) {i++}
-			this.explore_path(sorted_path[i][0]);
-			
+	}
 
-		}
+	iter_solve() {
+		let i = 0;
+		while ((i < this.sorted_path.length) && (this.sorted_path[i].length == 0)) {i++}
+		this.explore_path(this.sorted_path[i].pop());	
 	}
 }
