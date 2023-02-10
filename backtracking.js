@@ -21,7 +21,7 @@ class BacktrackingSolver extends Solver {
 	constructor(world) {
 		super(world);
 		this.moves = [];
-		this.sorted_path = [[], [], [], [], []];
+		this.sorted_path = [[], [], [], [], [], []];
 	}
 
 	heuristique(cella, target) {
@@ -38,7 +38,11 @@ class BacktrackingSolver extends Solver {
 	}
 
 	backtrack(path) {
-		while (this.moves.length && (this.moves[this.moves.length - 1] != path.id)) {
+		console.log("BACKTRACK");
+		console.log(path.id);
+		console.log(this.moves);
+		console.log(this.sorted_path);
+		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] != path.id)) {
 			this.backtrack_path(this.world.path[this.moves.pop()]);
 		}
 		this.backtrack_path(this.world.path[this.moves.pop()]);
@@ -54,7 +58,7 @@ class BacktrackingSolver extends Solver {
 			this.sorted_path[neighbour.length].push(path);
 		} else {
 			path.tilelist.push([cell, []]);
-			this.sorted_path[4].push(path);
+			this.sorted_path[5].push(path);
 		}
 	}
 	
@@ -71,22 +75,31 @@ class BacktrackingSolver extends Solver {
 	}
 
 	compute_sorted_path() {
-		this.sorted_path = [[], [], [], [], []];
+		this.sorted_path = [[], [], [], [], [], []];
 		for (let i=0; i < this.world.path.length; i++) {
-			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+			if (this.world.path[i].tilelist[this.world.path[i].tilelist.length - 1][0] != this.world.path[i].cellend) {
+				this.sorted_path[this.world.path[i].tilelist[0][1].length].push(this.world.path[i]);
+			} else {
+				this.sorted_path[5].push(this.world.path[i]);
+			}
 		}
 	}
+
 	start_solve() {
 		// Initialise les chemins en précalculant les chemins possibles
 		for (let i=0; i < this.world.path.length; i++) {
-			this.explore_cell(this.world.path[i], this.world.path[i].cellstart, (0, 0));
-			this.sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
+			this.explore_cell(this.world.path[i], this.world.path[i].cellstart);
 		}
+		this.compute_sorted_path()
 	}
 
 	iter_solve() {
 		let i = 0;
 		while ((i < this.sorted_path.length) && (this.sorted_path[i].length == 0)) {i++}
-		this.explore_path(this.sorted_path[i].pop());	
+		if (i === this.sorted_path.length) {
+			console.log("On ne peut plus avancer ! sad");
+		} else {
+			this.explore_path(this.sorted_path[i].pop());	
+		}
 	}
 }

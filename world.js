@@ -92,7 +92,7 @@ class Cell {
     }
 
     is_free(path) {
-        return !this.path && ((this.celltype === cell.empty) || (this.celltype === cell.number && this.number == path.id))
+        return !this.path && ((this.celltype === cell.empty) || ((this.celltype === cell.number) && (this.number === path.id)))
     }
 
     show() {
