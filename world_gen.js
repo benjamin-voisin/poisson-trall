@@ -86,6 +86,11 @@ function generate_map(height, width, n, k) {
 		true_world.add_target(cellstart, cellend);
 
 	}
+	for (let i = 0; i < world.height; i++){
+		for (let j = 0; j < world.width; j++){
+			true_world.grid[i][j].wall = world.grid[i][j].wall
+		}
+	}
 	//À la fin, on vide les chemins de tous les points intérieurs, pour en faire
 	//des targets
 	return true_world
