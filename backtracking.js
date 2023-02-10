@@ -50,7 +50,6 @@ class BacktrackingSolver extends Solver {
 			}
 			this.compute_sorted_path();
 		} else {
-			this.started = false;
 			console.error("Tentative de supression d'un noeud initial !");
 		}
 	}

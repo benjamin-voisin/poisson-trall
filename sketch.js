@@ -1,11 +1,11 @@
-const n = 5;
+const n = 10;
 let cols, rows;
 let canvasx, canvasy;
 let colors;
 let solver;
 let playing = false;
 
-const k = 10;
+const k = 5;
 
 
 const shuffle_array = array => {
@@ -66,7 +66,7 @@ function setup() {
 
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
-	world = generate_map(height, width, n, k);
+	//world = generate_map(height, width, n, k);
 
     s = new BacktrackingSolver(world);
     s.start_solve();
@@ -91,7 +91,7 @@ function setup() {
 
 
 function draw() {
-    // frameRate(0);
+    frameRate(1000);
     background(255);
 
     if (current_path.length > 0) {
