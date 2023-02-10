@@ -30,13 +30,14 @@ class BacktrackingSolver extends Solver {
 
 	explore_cell(path, cell) {
 		let neighbour = this.get_neighbour(cell);
-		neighbour.sort((c1, c2) => (this.heuristique(c1, path.cellend) - this.heuristique(c2, path.cellend)));
+		neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
 		path.tilelist.push([cell, neighbour, this.timestamp]);
 	}
 	
 	explore_path(path) {
-		if (path.tilelist[1].length > 0) {
-			this.explore_cell(path, path.tilelist[1].pop(), this.timestamp);
+		console.log(path);
+		if (path.tilelist[path.tilelist.length - 1][1].length > 0) {
+			this.explore_cell(path, path.tilelist[path.tilelist.length - 1][1].pop(), this.timestamp);
 		} else {
 			path.tilelist.pop();
 			this.timestamp = (this.timestamp[0] + 1, 0);
@@ -51,11 +52,15 @@ class BacktrackingSolver extends Solver {
 			this.explore_cell(this.world.path[i], this.world.path[i].cellstart, (0, 0));
 			sorted_path[this.world.path[i].tilelist[0][1].length - 1].push(this.world.path[i])
 		}
-		console.log(sorted_path);
-		// Répartition des chemins dans en fonction des coups possibles
+		//console.log(sorted_path);
 		let n_target = 0;
 		//while (n_target < this.world.path.length) {
-			//console.log("lol")
-		//}
+		for (let i = 0; i < 100; i++) {
+			let i = 0;
+			while ((i < sorted_path.length) && (sorted_path[i].length == 0)) {i++}
+			this.explore_path(sorted_path[i][0]);
+			
+
+		}
 	}
 }
