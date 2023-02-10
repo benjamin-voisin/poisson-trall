@@ -5,10 +5,10 @@ class Solver {
 
 	get_free_neighbour(path, cell) {
 		let array = [];
-		if ((cell.j + 1 < this.world.width) && (this.world.grid[cell.i][cell.j + 1].is_free(path))) {array.push(this.world.grid[cell.i][cell.j + 1])};
-		if ((0 <= cell.j - 1) && (this.world.grid[cell.i][cell.j - 1].is_free(path))) {array.push(this.world.grid[cell.i][cell.j - 1])};
-		if ((cell.i + 1 < this.world.height) && (this.world.grid[cell.i + 1][cell.j].is_free(path))) {array.push(this.world.grid[cell.i + 1][cell.j])};
-		if ((0 <= cell.i - 1) && (this.world.grid[cell.i - 1][cell.j].is_free(path))) {array.push(this.world.grid[cell.i - 1][cell.j])};
+		if ((cell.j + 1 < this.world.width) && (this.world.grid[cell.i][cell.j + 1].is_free(path))) { array.push(this.world.grid[cell.i][cell.j + 1]) };
+		if ((0 <= cell.j - 1) && (this.world.grid[cell.i][cell.j - 1].is_free(path))) { array.push(this.world.grid[cell.i][cell.j - 1]) };
+		if ((cell.i + 1 < this.world.height) && (this.world.grid[cell.i + 1][cell.j].is_free(path))) { array.push(this.world.grid[cell.i + 1][cell.j]) };
+		if ((0 <= cell.i - 1) && (this.world.grid[cell.i - 1][cell.j].is_free(path))) { array.push(this.world.grid[cell.i - 1][cell.j]) };
 		return array;
 	}
 
@@ -51,7 +51,7 @@ class BacktrackingSolver extends Solver {
 	explore_cell(path, cell) {
 		this.moves.push(path.id);
 		cell.path = path.id;
-		if (cell != path.cellend) { 
+		if (cell !== path.cellend) {
 			let neighbour = this.get_free_neighbour(path, cell);
 			neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
 			path.tilelist.push([cell, neighbour]);
@@ -61,7 +61,7 @@ class BacktrackingSolver extends Solver {
 			this.sorted_path[5].push(path);
 		}
 	}
-	
+
 	explore_path(path) {
 		if (path.tilelist[path.tilelist.length - 1][1].length > 0) {
 			// Vérifier que la node n'a pas étée occupée depuis
@@ -76,7 +76,7 @@ class BacktrackingSolver extends Solver {
 
 	compute_sorted_path() {
 		this.sorted_path = [[], [], [], [], [], []];
-		for (let i=0; i < this.world.paths.length; i++) {
+		for (let i = 0; i < this.world.paths.length; i++) {
 			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] !== this.world.paths[i].cellend) {
 				this.sorted_path[this.world.paths[i].tilelist[0][1].length].push(this.world.paths[i]);
 			} else {
@@ -87,7 +87,7 @@ class BacktrackingSolver extends Solver {
 
 	start_solve() {
 		// Initialise les chemins en précalculant les chemins possibles
-		for (let i=0; i < this.world.paths.length; i++) {
+		for (let i = 0; i < this.world.paths.length; i++) {
 			this.explore_cell(this.world.paths[i], this.world.paths[i].cellstart);
 		}
 		this.compute_sorted_path()
@@ -95,11 +95,11 @@ class BacktrackingSolver extends Solver {
 
 	iter_solve() {
 		let i = 0;
-		while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) {i++}
+		while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) { i++ }
 		if (i === this.sorted_path.length) {
 			console.log("On ne peut plus avancer ! sad");
 		} else {
-			this.explore_path(this.sorted_path[i].pop());	
+			this.explore_path(this.sorted_path[i].pop());
 		}
 	}
 }

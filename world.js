@@ -1,7 +1,7 @@
 function make2DCellArray(height, width, w) {
     let i = -1;
     let j = -1;
-    return Array.from(Array(height), function () {i++;j=-1;return Array.from(Array(width), function () {j++;return new Cell(i, j, w)})});
+    return Array.from(Array(height), function () { i++; j = -1; return Array.from(Array(width), function () { j++; return new Cell(i, j, w) }) });
 }
 
 class World {
@@ -20,7 +20,7 @@ class World {
     }
 
     show() {
-        this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
+        this.grid.forEach(raw => raw.forEach(tile => tile.show()));
         this.paths.forEach(path => path.show());
         this.grid.forEach(raw => raw.forEach(tile => tile.show_number()));
     }
@@ -41,8 +41,9 @@ class Path {
 
     show() {
         if (this.tilelist.length > 0) {
-            stroke(255, 204, 0);
-            fill(255, 204, 0);
+            stroke(colors[this.id]);
+            // stroke(255, 204, 0);
+            // fill(colors[this.id]);
             circle(this.tilelist[0][0].i * w + w * 0.5, this.tilelist[0][0].j * w + w * 0.5, w * 0.8);
             circle(this.tilelist[this.tilelist.length - 1][0].i * w + w * 0.5, this.tilelist[this.tilelist.length - 1][0].j * w + w * 0.5, w * 0.8);
             strokeWeight(w * 0.5);
@@ -66,7 +67,7 @@ const cell = {
 Object.freeze(cell)
 
 class Cell {
-    constructor(i, j, w, number=null) {
+    constructor(i, j, w, number = null) {
         this.i = i;
         this.j = j;
 
