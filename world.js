@@ -80,7 +80,7 @@ class Cell {
     }
 
     get celltype() {
-        if (this.number !== null) {
+        if (this.number !== null || cell.number === 0) {
             return cell.number;
         } else {
             if (this.wall) {
@@ -92,7 +92,7 @@ class Cell {
     }
 
     is_free(path) {
-        return !this.path && ((this.celltype === cell.empty) || (this.celltype === cell.number && this.number == path.id))
+        return !this.path && (this.path !== 0) && ((this.celltype === cell.empty) || ((this.celltype === cell.number) && (this.number === path.id)))
     }
 
     show() {
