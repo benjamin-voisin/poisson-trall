@@ -21,7 +21,8 @@ class World {
 
     show() {
         this.grid.forEach(raw => raw.forEach(tile => tile.show())); 
-        this.path.forEach(path => path.show())
+        this.path.forEach(path => path.show());
+        this.grid.forEach(raw => raw.forEach(tile => tile.show_number()));
     }
 
     static makeEmptyWorld(height, width, w) {
@@ -39,7 +40,20 @@ class Path {
     }
 
     show() {
-
+        if (this.tilelist.length > 0) {
+            stroke(255, 204, 0);
+            fill(255, 204, 0);
+            circle(this.tilelist[0][0].i * w + w * 0.5, this.tilelist[0][0].j * w + w * 0.5, w * 0.8);
+            strokeWeight(w * 0.5);
+            noFill();
+            strokeJoin(ROUND);
+            beginShape();
+            for (const tile of this.tilelist) {
+                vertex(tile[0].i * w + w * 0.5, tile[0].j * w + w * 0.5);
+            }
+            endShape();
+            strokeWeight(0.2);
+        }
     }
 }
 
@@ -72,7 +86,10 @@ class Cell {
         stroke(0);
         noFill();
         rect(this.x, this.y, this.w, this.w);
+        this.show_number();
+    }
 
+    show_number() {
         if (this.number !== null) {
             textAlign(CENTER, CENTER);
             fill(0);
