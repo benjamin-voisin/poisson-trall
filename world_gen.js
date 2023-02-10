@@ -1,4 +1,4 @@
-const number_of_numbers = 5
+const number_of_numbers = 3
 
 function get_voisins(world, cell) {
 	let array = [];
@@ -34,6 +34,7 @@ function create_arbitrary_path(world) {
 	let voisins = get_voisins(world, world.grid[i_depart][j_depart]);
 	//Si cette cellule n’a aucun voisin, paf on la transforme en mur
 	if (voisins.length === 0) {
+		console.log("mur…");
 		world.grid[i_depart][j_depart].wall = true;
 	}
 	//Sinon, on prend des voisins randoms jusqu'à arriver à un point bloquant
@@ -74,8 +75,13 @@ function generate_map(height, width, n) {
 	for (let k = 0; k < number_of_numbers; k++) {
 		create_arbitrary_path(world);
 	}
-	clear_paths(world);
+	let true_world = World.makeEmptyWorld(n, n, w);
+	for (let k = 0; k < world.paths.length; k++){
+		true_world.add_target(world.paths[k].cellstart, world.paths[k].cellend);
+
+	}
+	console.log(true_world);
 	//À la fin, on vide les chemins de tous les points intérieurs, pour en faire
 	//des targets
-	return world
+	return true_world
 }
