@@ -1,8 +1,9 @@
-const n = 5;
+const n = 10;
 let cols, rows;
 let canvasx, canvasy;
 let colors;
 let solver;
+let playing = false;
 
 const k = 3;
 
@@ -67,17 +68,24 @@ function setup() {
     }
 
     s = new BacktrackingSolver(world);
+    s.start_solve();
 
 
     let start = document.getElementById("start");
-    start.addEventListener("click", function () {
-        s.start_solve();
+    let stop = document.getElementById("stop");
+    let forward = document.getElementById("forward");
+
+    start.addEventListener("click", () => {
+        playing = true;
     });
 
-    let forwatd = document.getElementById("forward");
-    forwatd.addEventListener("click", function () {
+    forward.addEventListener("click", () => {
         s.iter_solve();
     });
+
+    stop.addEventListener("click", () => {
+        playing = false;
+    })
 }
 
 
@@ -98,7 +106,7 @@ function draw() {
         endShape();
         strokeWeight(0.2);
     }
-    if (s.started) {
+    if (s.started && playing) {
         s.iter_solve();
     }
     world.show()
