@@ -1,9 +1,10 @@
-const n = 10;
+const n = 5;
 let cols, rows;
 let canvasx, canvasy;
 let colors;
+let solver;
 
-const k = 7;
+const k = 4;
 
 
 const shuffle_array = array => {
@@ -65,7 +66,7 @@ function setup() {
         world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
 
-    let s = new BacktrackingSolver(world);
+    s = new BacktrackingSolver(world);
 
 
     let start = document.getElementById("start");
@@ -81,7 +82,7 @@ function setup() {
 
 
 function draw() {
-    frameRate(30);
+    // frameRate(0);
     background(255);
 
     if (current_path.length > 0) {
@@ -96,6 +97,9 @@ function draw() {
         }
         endShape();
         strokeWeight(0.2);
+    }
+    if (s.started) {
+        s.iter_solve();
     }
     world.show()
 }
