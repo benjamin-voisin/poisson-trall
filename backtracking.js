@@ -34,25 +34,25 @@ class BacktrackingSolver extends Solver {
 	}
 
 	backtrack_path(path) {
-		console.log(path);
-		if (path.tilelist.length > 1) {
-			let tile = path.tilelist.pop();
-			this.backtrack_cell(tile[0]);
-		} 
+		let tile = path.tilelist.pop();
+		this.backtrack_cell(tile[0]);
 	}
 
 	backtrack(path) {
-		while ((this.moves.length > 0) && (this.moves[this.moves.length - 1] !== path.id)) {
+		if (this.moves.length > this.world.paths.length) {
 			path = this.world.paths[this.moves.pop()];
-			if (path.tilelist.length > 1) {
-				this.backtrack_path(path);
-			} else {
-				break
+			this.backtrack_path(path);
+			if (path.tilelist.length > 2) {
+				while ((this.moves.length > this.world.paths.length) && (this.moves[this.moves.length - 1] !== path.id)) {
+					this.backtrack_path(this.world.paths[this.moves.pop()]);
+				}
+				this.backtrack_path(this.world.paths[this.moves.pop()]);
 			}
+			this.compute_sorted_path();
+		} else {
+			this.started = false;
+			console.error("Tentative de supression d'un noeud initial !");
 		}
-		console.log(this.moves);
-		this.backtrack_path(this.world.paths[this.moves.pop()]);
-		this.compute_sorted_path();
 	}
 
 	explore_cell(path, cell) {
@@ -108,6 +108,7 @@ class BacktrackingSolver extends Solver {
 			while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) { i++ }
 			if (i === this.sorted_path.length) {
 				console.log("On ne peut plus avancer ! sad");
+				this.started = false;
 			} else {
 				this.explore_path(this.sorted_path[i].pop());
 			}

@@ -1,11 +1,11 @@
-const n = 10;
+const n = 5;
 let cols, rows;
 let canvasx, canvasy;
 let colors;
 let solver;
 let playing = false;
 
-const k = 15;
+const k = 10;
 
 
 const shuffle_array = array => {
