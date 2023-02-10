@@ -1,4 +1,3 @@
-const number_of_numbers = 5
 
 function get_voisins(world, cell) {
 	let array = [];
@@ -62,7 +61,7 @@ function clear_paths(world) {
 	}
 }
 
-function generate_map(height, width, n) {
+function generate_map(height, width, n, k) {
 	w = floor(width / n);
 	//On crée un monde vied
 	world = World.makeEmptyWorld(n, n, w);
@@ -72,15 +71,15 @@ function generate_map(height, width, n) {
 	// while (is_not_full(world)){
 	// 	create_arbitrary_path(world);
 	// }
-	let k = 0;
-	while (k < number_of_numbers && is_not_full(world)){
+	let i = 0;
+	while (i < k && is_not_full(world)){
 		create_arbitrary_path(world);
-		k++;
+		i++;
 	}
 	let true_world = World.makeEmptyWorld(n, n, w);
-	for (let k = 0; k < world.paths.length; k++){
-		cellstart = true_world.grid[world.paths[k].cellstart.i][world.paths[k].cellstart.j]
-		cellend = true_world.grid[world.paths[k].cellend.i][world.paths[k].cellend.j]
+	for (let i = 0; i < world.paths.length; i++){
+		cellstart = true_world.grid[world.paths[i].cellstart.i][world.paths[i].cellstart.j]
+		cellend = true_world.grid[world.paths[i].cellend.i][world.paths[i].cellend.j]
 		console.log(cellstart)
 		console.log(cellend)
 		true_world.add_target(cellstart, cellend);
