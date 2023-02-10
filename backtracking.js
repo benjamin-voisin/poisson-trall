@@ -21,6 +21,7 @@ class BacktrackingSolver extends Solver {
 	constructor(world) {
 		super(world);
 		this.timestamp = (0, 0);
+		this.timestamp_checkpoint = (0, 0);
 	}
 
 	heuristique(cella, target) {
@@ -44,7 +45,7 @@ class BacktrackingSolver extends Solver {
 	}
 
 	solve() {
-		let sorted_path = [[], [], [], []];
+		let sorted_path = [[], [], [], [], []];
 		// Initialise les chemins en précalculant les chemins possibles
 		for (let i=0; i < this.world.path.length; i++) {
 			this.explore_cell(this.world.path[i], this.world.path[i].cellstart, (0, 0));
