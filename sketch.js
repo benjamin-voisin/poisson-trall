@@ -5,7 +5,7 @@ let colors;
 let solver;
 let playing = false;
 
-const k = 4;
+const k = 15;
 
 
 const shuffle_array = array => {
@@ -141,7 +141,7 @@ function mouseDragged(event) {
 
 
     // On ne peut pas se déplacer sur une case déjà prise par un chemin fini
-    if (world.grid[i][j].path) {
+    if (world.grid[i][j].path || world.grid[i][j].wall) {
         return;
     }
 

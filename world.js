@@ -98,9 +98,15 @@ class Cell {
 
     show() {
         stroke(0);
-        noFill();
+        if (this.wall) {
+            fill('grey');
+        }
+        else {
+            noFill();
+        }
         rect(this.x, this.y, this.w, this.w);
         this.show_number();
+
     }
 
     show_number() {
