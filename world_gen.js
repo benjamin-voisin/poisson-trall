@@ -1,4 +1,4 @@
-const number_of_numbers = 2
+const number_of_numbers = 5
 
 function get_voisins(world, cell) {
 	let array = [];
@@ -72,8 +72,10 @@ function generate_map(height, width, n) {
 	// while (is_not_full(world)){
 	// 	create_arbitrary_path(world);
 	// }
-	for (let k = 0; k < number_of_numbers; k++) {
+	let k = 0;
+	while (k < number_of_numbers && is_not_full(world)){
 		create_arbitrary_path(world);
+		k++;
 	}
 	let true_world = World.makeEmptyWorld(n, n, w);
 	for (let k = 0; k < world.paths.length; k++){
