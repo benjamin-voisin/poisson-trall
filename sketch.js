@@ -13,28 +13,28 @@ function setup() {
     world = World.makeEmptyWorld(n, n, w);
 
     for (let nb = 0; nb < k; nb++) {
-        let rd = floor(random(n * n));
-        let i = rd % n;
-        let j = floor(rd / n);
-
-        while (world.grid[i][j].number !== null) {
-            rd = floor(random(n * n));
-            i = rd % n;
-            j = floor(rd / n);
-        }
-        world.grid[i][j].number = nb;
-
 
         rd = floor(random(n * n - 1));
-        i = rd % n;
-        j = floor(rd / n);
+        i1 = rd % n;
+        j1 = floor(rd / n);
 
-        while (world.grid[i][j].number !== null) {
-            rd = floor(random(n * n - 1));
-            i = rd % n;
-            j = floor(rd / n);
+        while (world.grid[i1][j1].number !== null) {
+            rd = floor(random(n * n));
+            i1 = rd % n;
+            j1 = floor(rd / n);
         }
-        world.grid[i][j].number = nb;
+
+        rd = floor(random(n * n - 1));
+        i2 = rd % n;
+        j2 = floor(rd / n);
+
+        while (world.grid[i2][j2].number !== null) {
+            rd = floor(random(n * n));
+            i2 = rd % n;
+            j2 = floor(rd / n);
+        }
+
+        world.add_target(world.grid[i1][j1], world.grid[i2][j2])
     }
 }
 

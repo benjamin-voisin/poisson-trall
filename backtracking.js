@@ -3,18 +3,39 @@ class Solver {
 		this.world = world;
 	}
 
+	get_voisins(cell) {
+		let array = [];
+		if ((0 < j + 1 < this.world.width)  && (this.world.grid[cell.i][cell.j + 1].is_free())) {array.push(this.world.grid[cell.i][cell.j + 1])};
+		if ((0 < j - 1 < this.world.width)  && (this.world.grid[cell.i][cell.j - 1].is_free())) {array.push(this.world.grid[cell.i][cell.j - 1])};
+		if ((0 < i + 1 < this.world.height) && (this.world.grid[cell.i + 1][cell.j].is_free())) {array.push(this.world.grid[cell.i + 1][cell.j])};
+		if ((0 < i - 1 < this.world.height) && (this.world.grid[cell.i - 1][cell.j].is_free())) {array.push(this.world.grid[cell.i - 1][cell.j])};
+		return array;
+	}
+
 	solve() {
 		console.error("Pas de solveur implémenté !");
 	}
 }
 
+class TrackedCell extends Cell {
+	constructor(i, j, w, number=null) {
+		super(i, j, w, number)
+	}
+}
+
 class Backtracking extends Solver {
 	constructor(world) {
-		super(world)
+		super(world);
 	}
 	
 	solve() {
-		
+		let n_target = 0;
+		j = 0;
+		i = 0;
+		while (n_target < this.world.target.length) {
+			this.world.path[i] 
+			i = ++i % this.world.target.length;
+		}
 	}
 }
 
@@ -39,10 +60,6 @@ function get_couples(grid) {
 	}
 
 	return res;
-}
-
-function get_voisins(grid, path) {
-
 }
 
 function nb_voisins(grid, path) {

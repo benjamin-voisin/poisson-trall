@@ -6,12 +6,19 @@ function make2DCellArray(height, width, w) {
 
 class World {
     constructor(height, width, w, grid) {
-        console.log(grid);
         this.height = height;
         this.width = width;
         this.w = w;
         this.grid = grid;
+        this.target = [];
         this.path = [];
+    }
+
+    add_target(cella, cellb) {
+        cella.number = this.target.length;
+        cellb.number = this.target.length;
+        this.path.push(new Path(this.target.length, cella));
+        this.target.push((cella, cellb));
     }
 
     show() {
@@ -26,9 +33,9 @@ class World {
 }
 
 class Path {
-    constructor(cell) {
-        this.id = cell.number;
-        this.tilelist = [cell];
+    constructor(id, cellstart) {
+        this.id = cell.id;
+        this.tilelist = [cellstart];
     }
 
     show() {
@@ -55,6 +62,10 @@ class Cell {
         this.celltype = cell.empty;
         this.path = false;
         this.number = number;
+    }
+
+    is_free() {
+        return !this.path && (this.celltype === cell.empty)
     }
 
     show() {
