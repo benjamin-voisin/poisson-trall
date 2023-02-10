@@ -58,7 +58,7 @@ function setup() {
         i2 = rd % n;
         j2 = floor(rd / n);
 
-        while (world.grid[i2][j2].number !== null && (i1 !== i2 || j1 !== j2)) {
+        while (world.grid[i2][j2].number !== null && (i1 === i2 || j1 === j2)) {
             rd = floor(random(n * n));
             i2 = rd % n;
             j2 = floor(rd / n);
