@@ -22,12 +22,19 @@ class BacktrackingSolver extends Solver {
 		super(world);
 		this.started = false;
 		this.moves = [];
-		this.sorted_path = [[], [], [], [], [], []];
+		this.last_reverse = null;
 	}
 
 	heuristique(cella, target) {
 		return (cella.i - target.i) ** 2 + (cella.j - target.j) ** 2;
 	}
+
+	update_neighbour(path) {
+		let tile = path.tilelist.pop();
+        let neighbour = this.get_free_neighbour(path, tile[0]);
+		neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
+		path.tilelist.push([tile[0], neighbour]);
+    }
 
 	backtrack_cell(cell) {
 		cell.path = null;
@@ -36,19 +43,16 @@ class BacktrackingSolver extends Solver {
 	backtrack_path(path) {
 		let tile = path.tilelist.pop();
 		this.backtrack_cell(tile[0]);
+		if (this.last_reverse !== null && this.last_reverse !== path.id) {
+			this.update_neighbour(this.world.paths[this.last_reverse]);
+		}
+		this.last_reverse = path.id;
 	}
 
-	backtrack(path) {
+	backtrack() {
 		if (this.moves.length > this.world.paths.length) {
-			path = this.world.paths[this.moves.pop()];
+			let path = this.world.paths[this.moves.pop()];
 			this.backtrack_path(path);
-			if (path.tilelist.length > 2) {
-				while ((this.moves.length > this.world.paths.length) && (this.moves[this.moves.length - 1] !== path.id)) {
-					this.backtrack_path(this.world.paths[this.moves.pop()]);
-				}
-				this.backtrack_path(this.world.paths[this.moves.pop()]);
-			}
-			this.compute_sorted_path();
 		} else {
 			console.error("Tentative de supression d'un noeud initial !");
 		}
@@ -61,14 +65,13 @@ class BacktrackingSolver extends Solver {
 			let neighbour = this.get_free_neighbour(path, cell);
 			neighbour.sort((c1, c2) => (this.heuristique(c2, path.cellend) - this.heuristique(c1, path.cellend)));
 			path.tilelist.push([cell, neighbour]);
-			this.sorted_path[neighbour.length].push(path);
 		} else {
 			path.tilelist.push([cell, []]);
-			this.sorted_path[5].push(path);
 		}
 	}
 
 	explore_path(path) {
+		console.log(path);
 		if (path.tilelist[path.tilelist.length - 1][1].length > 0) {
 			// Vérifier que la node n'a pas étée occupée depuis
 			let cell = path.tilelist[path.tilelist.length - 1][1].pop();
@@ -76,19 +79,7 @@ class BacktrackingSolver extends Solver {
 				this.explore_cell(path, cell);
 			}
 		} else {
-			this.backtrack(path)
-		}
-	}
-
-	compute_sorted_path() {
-		this.sorted_path = [[], [], [], [], [], []];
-		for (let i = 0; i < this.world.paths.length; i++) {
-			console.log(this.world.paths[i]);
-			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] !== this.world.paths[i].cellend) {
-				this.sorted_path[this.world.paths[i].tilelist[0][1].length].push(this.world.paths[i]);
-			} else {
-				this.sorted_path[5].push(this.world.paths[i]);
-			}
+			this.backtrack()
 		}
 	}
 
@@ -98,19 +89,24 @@ class BacktrackingSolver extends Solver {
 		for (let i = 0; i < this.world.paths.length; i++) {
 			this.explore_cell(this.world.paths[i], this.world.paths[i].cellstart);
 		}
-		this.compute_sorted_path()
 	}
 
 	iter_solve() {
-		if (!(this.sorted_path[5].length === this.world.paths.length)) {
-			let i = 0;
-			while ((i < this.sorted_path.length) && (this.sorted_path[i].length === 0)) { i++ }
-			if (i === this.sorted_path.length) {
-				console.log("On ne peut plus avancer ! sad");
-				this.started = false;
-			} else {
-				this.explore_path(this.sorted_path[i].pop());
+		let min = 5;
+		let imin = -1;
+		for (let i=0; i < this.world.paths.length; i++) {
+			//
+			console.log(`${i}: ${this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][1].length}, min=${min}`);
+			if (this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][1].length < min && this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][0] !== this.world.paths[i].cellend) {
+				min = this.world.paths[i].tilelist[this.world.paths[i].tilelist.length - 1][1].length;
+				imin = i;
 			}
+		}
+		if (min === 5) {
+			console.log("Terminé, c'est trouvé !");
+				this.started = false;
+		} else {
+			this.explore_path(this.world.paths[imin]);
 		}
 	}
 }
