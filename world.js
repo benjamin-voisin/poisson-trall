@@ -44,7 +44,8 @@ class Path {
             stroke(colors[this.id]);
             // stroke(255, 204, 0);
             fill(colors[this.id]);
-            circle(this.tilelist[0][0].i * w + w * 0.5, this.tilelist[0][0].j * w + w * 0.5, w * 0.8);
+            circle(this.cellstart.i * w + w * 0.5, this.cellstart.j * w + w * 0.5, w * 0.8);
+            circle(this.cellend.i * w + w * 0.5, this.cellend.j * w + w * 0.5, w * 0.8);
             circle(this.tilelist[this.tilelist.length - 1][0].i * w + w * 0.5, this.tilelist[this.tilelist.length - 1][0].j * w + w * 0.5, w * 0.8);
             strokeWeight(w * 0.5);
             noFill();
